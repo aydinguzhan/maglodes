@@ -6,6 +6,8 @@ type Props = {
   onChange: () => void;
   placeHolder?: string;
   label?: string;
+  disabled?: boolean;
+  hidden?: boolean;
 };
 
 export default function Input({
@@ -14,9 +16,11 @@ export default function Input({
   onChange,
   placeHolder = "",
   label = "",
+  disabled = false,
+  hidden = false,
 }: Props) {
   return (
-    <div className="flex flex-col gap-1 w-full p-1 ">
+    <div className={`${hidden ? "hidden" : "flex flex-col gap-1 w-full p-1"}`}>
       <label htmlFor={id} className="font-medium">
         {label}
       </label>
@@ -26,6 +30,7 @@ export default function Input({
         onChange={() => onChange()}
         placeholder={placeHolder}
         className="border-1 border-gray-200 rounded-lg p-2 focus:outline-amber-300"
+        disabled={disabled}
       />
     </div>
   );

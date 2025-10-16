@@ -46,7 +46,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen bg-gray-100 transition-all duration-300 flex flex-col p-4 ${
+      className={`fixed top-0 left-0 min-h-screen  bg-gray-100 transition-all duration-300 flex flex-col p-4 z-10 ${
         isOpen ? "w-64" : "w-16"
       }`}
     >

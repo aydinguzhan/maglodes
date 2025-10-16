@@ -4,6 +4,7 @@ import CreditCard from "../../components/layout/Dashboard/CreditCard";
 import TopBar from "../../components/layout/Dashboard/TopBar";
 import Chart from "../../components/layout/Chart/Chart";
 import Table from "../../components/layout/Table/Table";
+import Sidebar from "../../components/layout/Sidebar/Sidebar";
 
 const tableHeaders = ["NAME/BUSINESS", "TYPE", "AMOUNT", "DATE"];
 const tableRow = [
@@ -47,6 +48,7 @@ const tableRow1 = [
 export default function Dashboard() {
   return (
     <>
+      <Sidebar />
       <div className="flex mx-15">
         <main className="flex-1 bg-white p-6 flex flex-col">
           <TopBar pageName="Dashboard" />

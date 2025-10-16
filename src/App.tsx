@@ -1,11 +1,11 @@
-// import Sidebar from "./components/layout/Sidebar/Sidebar";
-import SignIn from "./pages/Auth/SignIn";
+import SignIn from "./pages/Auth/SignInandUp";
+import Dashboard from "./pages/DashBoard/Dashboard";
 
 export default function App() {
   return (
     <>
-      {/* <Sidebar /> */}
-      <SignIn />
+      {/* <SignIn /> */}
+      <Dashboard />
     </>
   );
 }
