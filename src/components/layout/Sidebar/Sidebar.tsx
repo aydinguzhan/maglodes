@@ -10,9 +10,7 @@ import {
   MessageCircleQuestion,
 } from "lucide-react";
 
-type Props = {};
-
-export default function Sidebar({}: Props) {
+export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(true);
 
   const menuItems = [

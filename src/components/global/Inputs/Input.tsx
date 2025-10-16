@@ -3,7 +3,7 @@ import React from "react";
 type Props = {
   id: string;
   type: "email" | "password" | "text";
-  onChange: Function;
+  onChange: () => void;
   placeHolder?: string;
   label?: string;
 };
@@ -16,7 +16,7 @@ export default function Input({
   label = "",
 }: Props) {
   return (
-    <div className="flex flex-col gap-1  ">
+    <div className="flex flex-col gap-1 w-full p-1 ">
       <label htmlFor={id} className="font-medium">
         {label}
       </label>

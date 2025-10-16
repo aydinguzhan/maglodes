@@ -1,9 +1,9 @@
-import React from "react";
+import React, { type JSX } from "react";
 
 type Props = {
   size: "xxxl" | "xxl" | "xl" | "lg" | "sm";
   color: "gray" | "black" | "white";
-  label: string;
+  label: string | JSX.Element;
 };
 
 const sizeMap = {
