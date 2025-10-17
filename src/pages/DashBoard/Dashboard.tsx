@@ -45,10 +45,14 @@ const tableRow1 = [
   },
 ];
 
-export default function Dashboard() {
+type Props = {
+  onLogout: () => void;
+};
+
+export default function Dashboard({ onLogout }: Props) {
   return (
     <>
-      <Sidebar />
+      <Sidebar onLogout={onLogout} />
       <div className="flex mx-15">
         <main className="flex-1 bg-white p-6 flex flex-col">
           <TopBar pageName="Dashboard" />

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import MenuItem from "./partical/MenuItem";
+import { useNavigate } from "react-router-dom";
 import {
   Home,
   Settings,
@@ -9,10 +10,14 @@ import {
   LogOut,
   MessageCircleQuestion,
 } from "lucide-react";
+import utils from "../../../utils/utils";
 
-export default function Sidebar() {
+type Props = {
+  onLogout: () => void;
+};
+export default function Sidebar({ onLogout }: Props) {
   const [isOpen, setIsOpen] = useState(true);
-
+  const navigate = useNavigate();
   const menuItems = [
     {
       icon: <Home className="w-5 h-5 text-gray-700" />,
@@ -35,7 +40,11 @@ export default function Sidebar() {
     {
       icon: <LogOut className="w-5 h-5 text-gray-700" />,
       label: "Logout",
-      _onClick: () => {},
+      _onClick: () => {
+        utils.removeToken();
+        onLogout();
+        navigate("/auth");
+      },
     },
     {
       icon: <MessageCircleQuestion className="w-5 h-5 text-gray-700" />,
@@ -72,11 +81,10 @@ export default function Sidebar() {
           ))}
         </nav>
 
-        {/* Alt menu (logout/help) */}
         <div className="flex flex-col gap-3 mt-4">
-          {authItems.map((item) => (
+          {authItems.map((item, index) => (
             <MenuItem
-              key={item.label}
+              key={`auth-${index}-${item.label}`}
               Icon={item.icon}
               isOpen={isOpen}
               _onClick={item._onClick}
