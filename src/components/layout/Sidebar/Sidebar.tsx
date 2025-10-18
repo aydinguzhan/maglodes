@@ -11,12 +11,15 @@ import {
   MessageCircleQuestion,
 } from "lucide-react";
 import utils from "../../../utils/utils";
+import { useAuthStore } from "../../../stores/useAuthStore";
 
 type Props = {
   onLogout: () => void;
 };
 export default function Sidebar({ onLogout }: Props) {
   const [isOpen, setIsOpen] = useState(true);
+  const { logout } = useAuthStore();
+
   const navigate = useNavigate();
   const menuItems = [
     {
@@ -41,8 +44,7 @@ export default function Sidebar({ onLogout }: Props) {
       icon: <LogOut className="w-5 h-5 text-gray-700" />,
       label: "Logout",
       _onClick: () => {
-        utils.removeToken();
-        onLogout();
+        logout();
         navigate("/auth");
       },
     },

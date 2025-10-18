@@ -1,23 +1,19 @@
 import React from "react";
-import TableBody from "./Components/TableBody";
-type ITableRow = {
-  id: string;
-  imgUrl: string;
-  name: string;
-  type: string;
-  business: string;
-  amount: string;
-  date: string;
-};
+import TableBody, { type ScheduledTransferRow } from "./Components/TableBody";
 
 type Props = {
   title: string;
   tableHeader: string[];
-  tableRow: any[];
+  tableRow?: ScheduledTransferRow[]; // opsiyonel
   type?: "basic" | "moduler";
 };
 
-export default function Table({ tableHeader, tableRow, title, type }: Props) {
+export default function Table({
+  tableHeader,
+  tableRow = [],
+  title,
+  type,
+}: Props) {
   return (
     <TableBody
       labels={tableHeader}

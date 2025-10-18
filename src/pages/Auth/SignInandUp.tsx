@@ -9,60 +9,67 @@ import type {
   LoginResponse,
   RegisterPayload,
   RegisterResponse,
-  User,
 } from "../../utils/types";
 import { toast } from "react-toastify";
 import { Formik, Form } from "formik";
 import { loginAndRegisterSchema } from "../validationSchema/loginandRegister";
 import Loader from "../../components/global/Loader/Loader";
-import utils from "../../utils/utils";
+import { useAuthStore } from "../../stores/useAuthStore";
 
 type Props = {
   isSingUp: boolean;
   setIsSingUp: React.Dispatch<React.SetStateAction<boolean>>;
-  onLogin: (token: string) => void;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
 };
 
-export default function SignInandUp({
-  isSingUp,
-  setIsSingUp,
-  onLogin,
-  setUser,
-}: Props) {
+export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
   const formikRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Zustand store’dan alınan değer ve aksiyonlar
+  const { setAuth } = useAuthStore();
+
+  // ✅ LOGIN
   const login = async (payload: LoginPayload) => {
     setIsLoading(true);
     try {
       const res = (await authService.login(payload)) as LoginResponse;
-      if (res.success) {
+
+      if (res.success && res.data) {
         toast.success(res.message);
-        setUser(res.data.user as User);
-        onLogin(res.data.accessToken);
+        // ✅ Store’a kaydet (token + user)
+        setAuth(res.data.accessToken, res.data.user);
         navigate("/dashboard");
       } else {
         toast.error(res.message);
       }
     } catch (err) {
-      console.error(err);
+      console.error("Login error:", err);
       toast.error("Login failed");
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
+  // ✅ REGISTER
   const register = async (payload: RegisterPayload) => {
     setIsLoading(true);
-    const { data, message, success } = (await authService.register(
-      payload
-    )) as RegisterResponse;
-    if (success && message) {
-      toast.success(message);
-      navigate("/auth");
-    } else toast.error(message);
-    setIsLoading(false);
+    try {
+      const { message, success } = (await authService.register(
+        payload
+      )) as RegisterResponse;
+      if (success) {
+        toast.success(message || "Registration successful!");
+        setIsSingUp(false);
+      } else {
+        toast.error(message || "Registration failed");
+      }
+    } catch (err) {
+      console.error("Register error:", err);
+      toast.error("Register failed");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -83,134 +90,134 @@ export default function SignInandUp({
         login(loginPayload);
       }}
     >
-      {({ values, setFieldValue, errors }) => {
-        return (
-          <Form>
-            <div className="flex h-screen">
-              <div className="w-full sm:w-1/2 sm:justify-center  flex flex-col items-start justify-baseline p-4 bg-white">
-                <div>
-                  <img
-                    className="w-30 h-8"
-                    style={{
-                      borderWidth: 0,
-                      backgroundImage: "url('/Logo.png')",
-                    }}
-                  />
-                </div>
-
-                <div className="w-4/4 h-full flex flex-col justify-center items-center">
-                  <div className="w-3/4  text-start  flex  flex-col mb-8 gap-4">
-                    <Text
-                      color="black"
-                      label={isSingUp ? "Create new account" : "Sign In"}
-                      size="xxl"
-                    />
-                    <Text
-                      color="gray"
-                      label={
-                        isSingUp
-                          ? "Welcome back! Please enter your details"
-                          : "Create new account"
-                      }
-                      size="sm"
-                    />
-                  </div>
-                  <div className="w-3/4 flex flex-col justify-center items-center">
-                    <Input
-                      id="fullName"
-                      name="fullName"
-                      value={values?.fullName}
-                      onChange={(val: string) => setFieldValue("fullName", val)}
-                      type="text"
-                      label="FullName"
-                      placeHolder="Full Name"
-                      hidden={!isSingUp}
-                      errorMessage={errors.fullName}
-                    />
-
-                    <Input
-                      id="email"
-                      name="email"
-                      value={values?.email}
-                      onChange={(val: string) => setFieldValue("email", val)}
-                      type="email"
-                      label="Email"
-                      placeHolder="Email"
-                      errorMessage={errors.email}
-                    />
-                    <Input
-                      id="password"
-                      name="password"
-                      value={values?.password}
-                      onChange={(val: string) => setFieldValue("password", val)}
-                      type="password"
-                      label="Password"
-                      placeHolder="Password"
-                      errorMessage={errors.password}
-                    />
-
-                    <Button
-                      bgColor="lime"
-                      label={isLoading ? <Loader /> : "Sign In"}
-                      type="submit"
-                      disabled={isLoading}
-                    />
-                    <Button
-                      bgColor="white"
-                      label={
-                        <span className="flex justify-center items-center gap-4 text-gray-600">
-                          <div
-                            style={{
-                              width: 20,
-                              height: 20,
-                              backgroundImage: "url('/Google.png')",
-                              backgroundSize: "cover",
-                              backgroundPosition: "center",
-                            }}
-                            className="h-screen w-1/2"
-                          />
-                          {isSingUp ? "Sign up " : "Sign in "}with google
-                        </span>
-                      }
-                      onClick={() => {}}
-                    />
-
-                    <div className="">
-                      <Text
-                        color="gray"
-                        label={
-                          <span>
-                            {isSingUp
-                              ? "Already have an account ? "
-                              : "Don’t have an account ? "}
-
-                            <span
-                              className="font-bold text-black pl-1 hover:cursor-pointer hover:shadow-2xl"
-                              onClick={() =>
-                                setIsSingUp((prev: boolean) => !prev)
-                              }
-                            >
-                              {isSingUp ? "Sign in" : "Sign up"}
-                            </span>
-                          </span>
-                        }
-                        size="sm"
-                      />
-                    </div>
-                  </div>
-                </div>
+      {({ values, setFieldValue, errors }) => (
+        <Form>
+          <div className="flex h-screen">
+            {/* Sol kısım */}
+            <div className="w-full sm:w-1/2 flex flex-col items-start justify-center p-4 bg-white">
+              {/* Logo */}
+              <div className="mb-6">
+                <img
+                  className="w-30 h-8"
+                  style={{
+                    borderWidth: 0,
+                    backgroundImage: "url('/Logo.png')",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                />
               </div>
 
-              <div
-                className="w-0 sm:w-1/2  bg-cover bg-center hidden sm:block "
-                style={{
-                  backgroundImage: "url('/signin.png')",
-                }}
-              ></div>
+              {/* Başlık ve Açıklama */}
+              <div className="w-3/4 flex flex-col mb-8 gap-4">
+                <Text
+                  color="black"
+                  label={isSingUp ? "Create new account" : "Sign In"}
+                  size="xxl"
+                />
+                <Text
+                  color="gray"
+                  label={
+                    isSingUp
+                      ? "Welcome! Please enter your details below"
+                      : "Enter your credentials to continue"
+                  }
+                  size="sm"
+                />
+              </div>
+
+              {/* Form alanları */}
+              <div className="w-3/4 flex flex-col gap-4">
+                {isSingUp && (
+                  <Input
+                    id="fullName"
+                    name="fullName"
+                    value={values.fullName}
+                    onChange={(val: string) => setFieldValue("fullName", val)}
+                    type="text"
+                    label="Full Name"
+                    placeHolder="John Doe"
+                    errorMessage={errors.fullName}
+                  />
+                )}
+
+                <Input
+                  id="email"
+                  name="email"
+                  value={values.email}
+                  onChange={(val: string) => setFieldValue("email", val)}
+                  type="email"
+                  label="Email"
+                  placeHolder="user@example.com"
+                  errorMessage={errors.email}
+                />
+
+                <Input
+                  id="password"
+                  name="password"
+                  value={values.password}
+                  onChange={(val: string) => setFieldValue("password", val)}
+                  type="password"
+                  label="Password"
+                  placeHolder="••••••••"
+                  errorMessage={errors.password}
+                />
+
+                {/* Giriş / Kayıt butonu */}
+                <Button
+                  bgColor="lime"
+                  label={
+                    isLoading ? <Loader /> : isSingUp ? "Sign Up" : "Sign In"
+                  }
+                  type="submit"
+                  disabled={isLoading}
+                />
+
+                {/* Google Button (dummy) */}
+                <Button
+                  bgColor="white"
+                  label={
+                    <span className="flex justify-center items-center gap-3 text-gray-600">
+                      <img src="/Google.png" alt="google" className="w-5 h-5" />
+                      {isSingUp ? "Sign up" : "Sign in"} with Google
+                    </span>
+                  }
+                  onClick={() => toast.info("Google auth coming soon")}
+                />
+
+                {/* Toggle login/signup */}
+                <div className="text-center mt-4">
+                  <Text
+                    color="gray"
+                    label={
+                      <span>
+                        {isSingUp
+                          ? "Already have an account?"
+                          : "Don’t have an account?"}
+                        <span
+                          className="font-bold text-black pl-1 hover:cursor-pointer hover:underline"
+                          onClick={() => setIsSingUp((prev) => !prev)}
+                        >
+                          {isSingUp ? "Sign in" : "Sign up"}
+                        </span>
+                      </span>
+                    }
+                    size="sm"
+                  />
+                </div>
+              </div>
             </div>
-          </Form>
-        );
-      }}
+
+            {/* Sağ görsel alanı */}
+            <div
+              className="hidden sm:block w-1/2 bg-cover bg-center"
+              style={{
+                backgroundImage: "url('/signin.png')",
+              }}
+            ></div>
+          </div>
+        </Form>
+      )}
     </Formik>
   );
 }
