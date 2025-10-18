@@ -1,15 +1,19 @@
 import React from "react";
 
 type Props = {
-  size?: string;
+  size?: string; // Tailwind width için örn: "20", "32", ...
+  visible: boolean; // loader'ı göstermek için
 };
 
-export default function Loader({ size = "6" }: Props) {
+export default function Loader({ size = "20", visible }: Props) {
+  if (!visible) return null; // görünür değilse render etme
+
   return (
-    <div
-      className={`${"w-" + size} ${
-        "h-" + size
-      } border-4 border-gray-300 border-t-gray-600 rounded-full animate-spin`}
-    ></div>
+    <div className="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-black/30">
+      <div
+        className={`loader w-${size} h-1`}
+        style={{ minWidth: "130px", height: "4px" }}
+      ></div>
+    </div>
   );
 }

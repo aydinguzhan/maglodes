@@ -12,6 +12,7 @@ import type {
   WalletCard,
   WorkingCapitalResponse,
 } from "../../utils/types";
+import Loader from "../../components/global/Loader/Loader";
 
 const tableHeaders = ["NAME/BUSINESS", "TYPE", "AMOUNT", "DATE"];
 const tableRow = [
@@ -57,6 +58,7 @@ type Props = {
 };
 
 export default function Dashboard({ onLogout }: Props) {
+  const [isLoading, setIsLoading] = useState(false);
   const { token } = useAuthStore();
   const dashboardService = new DashboardService(token ?? undefined);
   const [wallets, setWallets] = useState<WalletCard[]>([]);
@@ -64,30 +66,34 @@ export default function Dashboard({ onLogout }: Props) {
   const [workingCapitali, setWorkingCapital] =
     useState<WorkingCapitalResponse>();
 
-  const fetchWallet = async () => {
-    const wallets = (await dashboardService.getWallet()) as WalletCard[];
-    setWallets(wallets);
-  };
-  const fetchWorkingCapital = async () => {
-    const response =
-      (await dashboardService.getWorkingCapital()) as WorkingCapitalResponse;
-    setWorkingCapital(response);
-  };
-  const fetchTransactions = async () => {
-    const transfers =
-      (await dashboardService.getScheduledTransfers()) as ScheduledTransfersResponse;
-    setTransfers(transfers);
-  };
   useEffect(() => {
-    if (token) {
-      fetchWallet();
-      fetchWorkingCapital();
-      fetchTransactions();
-    }
-  }, []);
+    const fetchData = async () => {
+      if (!token) return;
+      try {
+        setIsLoading(true);
+
+        const [wallets, workingCapital, transfers] = await Promise.all([
+          dashboardService.getWallet(),
+          dashboardService.getWorkingCapital(),
+          dashboardService.getScheduledTransfers(),
+        ]);
+
+        setWallets(wallets as WalletCard[]);
+        setWorkingCapital(workingCapital as WorkingCapitalResponse);
+        setTransfers(transfers as ScheduledTransfersResponse);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [token]);
 
   return (
     <>
+      <Loader visible={isLoading} size="32" />
       <Sidebar onLogout={onLogout} />
       <div className="flex mx-15">
         <main className="flex-1 bg-white p-6 flex flex-col">

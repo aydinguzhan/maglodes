@@ -17,7 +17,7 @@ type Props = {
   onLogout: () => void;
 };
 export default function Sidebar({ onLogout }: Props) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const { logout } = useAuthStore();
 
   const navigate = useNavigate();
