@@ -90,7 +90,7 @@ export default function CreditCard({ bgColor, blur, cardInfo }: Props) {
         {blur ? (
           <div className="flex w-full justify-between items-center px-4 ">
             <span className={`${blur && "text-gray-300 font-medium"}  text-lg`}>
-              {[cardInfo?.expiryMonth, cardInfo.expiryYear].join("/")}{" "}
+              {[cardInfo?.expiryMonth, cardInfo?.expiryYear].join("/")}
             </span>
             <svg
               width="32"

@@ -13,6 +13,8 @@ import type {
   WorkingCapitalResponse,
 } from "../../utils/types";
 import Loader from "../../components/global/Loader/Loader";
+import utils from "../../utils/utils";
+import { ToastContainer } from "react-toastify";
 
 const tableHeaders = ["NAME/BUSINESS", "TYPE", "AMOUNT", "DATE"];
 const tableRow = [
@@ -71,14 +73,12 @@ export default function Dashboard({ onLogout }: Props) {
       if (!token) return;
       try {
         setIsLoading(true);
-
         const [wallets, workingCapital, transfers] = await Promise.all([
           dashboardService.getWallet(),
           dashboardService.getWorkingCapital(),
           dashboardService.getScheduledTransfers(),
         ]);
-
-        setWallets(wallets as WalletCard[]);
+        setWallets(wallets.data.cards as WalletCard[]);
         setWorkingCapital(workingCapital as WorkingCapitalResponse);
         setTransfers(transfers as ScheduledTransfersResponse);
       } catch (err) {
@@ -93,6 +93,7 @@ export default function Dashboard({ onLogout }: Props) {
 
   return (
     <>
+      <ToastContainer />
       <Loader visible={isLoading} size="32" />
       <Sidebar onLogout={onLogout} />
       <div className="flex mx-15">
@@ -121,7 +122,7 @@ export default function Dashboard({ onLogout }: Props) {
             <div>
               <div className="h-100">
                 <div className="relative flex justify-center items-center lg:col-span-2 ">
-                  {/* <div className="absolute top-35 z-10 opacity-80 scale-95">
+                  <div className="absolute top-35 z-10 opacity-80 scale-95">
                     <CreditCard
                       bgColor="to-zinc-900"
                       blur={true}
@@ -135,7 +136,7 @@ export default function Dashboard({ onLogout }: Props) {
                       blur={false}
                       cardInfo={wallets[1]}
                     />
-                  </div> */}
+                  </div>
                 </div>
               </div>
               <div>

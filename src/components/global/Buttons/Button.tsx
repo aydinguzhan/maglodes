@@ -60,7 +60,7 @@ export default function Button({
       onClick={onClick && onClick}
       disabled={disabled}
       className={`
-        w-full p-2 my-2 rounded-xl font-semibold text-center border
+        w-full p-2 my-2 rounded-xl font-semibold text-center border 
         ${disabled ? colors.disabledBg : colors.bg}
         ${disabled ? colors.disabledText : colors.text}
         ${!disabled ? colors.hover : ""}
@@ -69,7 +69,7 @@ export default function Button({
         disabled:cursor-not-allowed
       `}
     >
-      {label}
+      <span className="m-auto text-white">{label}</span>
     </button>
   );
 }

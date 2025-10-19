@@ -17,6 +17,7 @@ class AuthService {
       util.setToken(token);
       if (successFunction) successFunction(response?.data?.data);
     }
+
     return response.data;
   }
   async register(payload: RegisterPayload, successFunction?: () => void) {

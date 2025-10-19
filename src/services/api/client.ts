@@ -28,12 +28,14 @@ export default class Client {
     });
 
     this.api.interceptors.response.use(
-      (response) => response,
+      (response: AxiosResponse) => response,
       (error) => {
-        const message =
-          error.response?.data?.message ||
-          "Bir hata oluştu. Lütfen tekrar deneyin.";
-        console.error("API Error:", message);
+        const status = error.response?.status;
+        if (status === 401) {
+          localStorage.removeItem("token");
+          window.location.href = "/login";
+        }
+
         return Promise.reject(error);
       }
     );
