@@ -61,24 +61,27 @@ export type WorkingCapitalDataItem = {
   net: number;
 };
 
-export type WorkingCapitalSummary = {
-  totalIncome: number;
-  totalExpense: number;
-  netBalance: number;
-};
+// export type WorkingCapitalSummary = {
+//   totalIncome: number;
+//   totalExpense: number;
+//   netBalance: number;
+//   totalIncomeFormat?: string;
+//   totalExpenseFormat?: string;
+//   netBalanceFormat?: string;
+// };
 
-export type WorkingCapitalData = {
-  period: string;
-  currency: string;
-  data: WorkingCapitalDataItem[];
-  summary: WorkingCapitalSummary;
-};
+// export type WorkingCapitalData = {
+//   period: string;
+//   currency: string;
+//   data: WorkingCapitalDataItem[];
+//   summary: WorkingCapitalSummary;
+// };
 
-export type WorkingCapitalResponse = {
-  success: boolean;
-  message: string;
-  data: WorkingCapitalData;
-};
+// export type WorkingCapitalResponse = {
+//   success: boolean;
+//   message: string;
+//   data: WorkingCapitalData;
+// };
 
 export type ScheduledTransferItem = {
   id: string;

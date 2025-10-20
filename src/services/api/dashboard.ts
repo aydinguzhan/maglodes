@@ -2,6 +2,7 @@ import type {
   ScheduledTransferItem,
   ScheduledTransfersResponse,
 } from "../../utils/types";
+import utils from "../../utils/utils";
 import Client from "./client";
 import moment from "moment";
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -18,7 +19,22 @@ export default class DashboardService {
   }
 
   async getWorkingCapital() {
-    return await this.client.get("/financial/working-capital");
+    const capital: any = await this.client.get("/financial/working-capital");
+
+    const { totalIncome, totalExpense, netBalance } = capital.data.summary;
+    const { currency } = capital.data;
+
+    const formattedData = {
+      ...capital,
+      summary: {
+        ...capital.data.summary,
+        incomeFormat: utils.moneyFormatter(totalIncome, currency),
+        expenseFormat: utils.moneyFormatter(totalExpense, currency),
+        netFormat: utils.moneyFormatter(netBalance, currency),
+      },
+    };
+
+    return formattedData;
   }
 
   async getWallet() {

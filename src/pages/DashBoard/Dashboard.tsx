@@ -46,10 +46,9 @@ export default function Dashboard({ onLogout }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useAuthStore();
   const dashboardService = new DashboardService(token ?? undefined);
-  const [wallets, setWallets] = useState<WalletCard[]>([]);
-  const [transfers, setTransfers] = useState<ScheduledTransfersResponse>();
-  const [workingCapitali, setWorkingCapital] =
-    useState<WorkingCapitalResponse>();
+  const [wallets, setWallets] = useState<any>([]);
+  const [transfers, setTransfers] = useState<any>();
+  const [workingCapitali, setWorkingCapital] = useState<any>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,9 +60,10 @@ export default function Dashboard({ onLogout }: Props) {
           dashboardService.getWorkingCapital(),
           dashboardService.getScheduledTransfers(),
         ]);
-        setWallets(wallets.data.cards as WalletCard[]);
-        setWorkingCapital(workingCapital as WorkingCapitalResponse);
-        setTransfers(transfers as ScheduledTransfersResponse);
+        console.log(workingCapital);
+        setWallets(wallets.data.cards);
+        setWorkingCapital(workingCapital);
+        setTransfers(transfers);
       } catch (err) {
         console.error(err);
       } finally {
@@ -88,24 +88,15 @@ export default function Dashboard({ onLogout }: Props) {
               <div className="flex gap-4 ">
                 <Card
                   bgColor="black"
-                  data={[
-                    workingCapitali?.data?.summary.netBalance,
-                    workingCapitali?.data?.currency,
-                  ].join(" ")}
+                  data={workingCapitali?.summary?.netFormat}
                 />
                 <Card
                   bgColor="gray"
-                  data={[
-                    workingCapitali?.data?.summary.totalExpense,
-                    workingCapitali?.data?.currency,
-                  ].join(" ")}
+                  data={workingCapitali?.summary?.expenseFormat}
                 />
                 <Card
                   bgColor="gray"
-                  data={[
-                    workingCapitali?.data?.summary.totalIncome,
-                    workingCapitali?.data?.currency,
-                  ].join(" ")}
+                  data={workingCapitali?.summary?.incomeFormat}
                 />
               </div>
 

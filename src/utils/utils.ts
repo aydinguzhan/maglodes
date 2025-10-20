@@ -40,13 +40,28 @@ class Utils {
       draggable: true,
       theme: "colored",
       style: {
-        backgroundColor: "#16a34a", // Tailwind'deki green-600
+        backgroundColor: "#16a34a",
         color: "#fff",
         fontWeight: "500",
       },
     };
 
     toast.success(res?.message ?? res, baseOptions);
+  }
+  moneyFormatter(amount: number, currency: string = "TRY"): string {
+    const localeMap: Record<string, string> = {
+      TRY: "tr-TR",
+      USD: "en-US",
+    };
+
+    const locale = localeMap[currency] || "tr-TRY";
+
+    return new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
   }
 }
 
