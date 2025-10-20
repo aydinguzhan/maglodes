@@ -60,7 +60,6 @@ export default function Dashboard({ onLogout }: Props) {
           dashboardService.getWorkingCapital(),
           dashboardService.getScheduledTransfers(),
         ]);
-        console.log(workingCapital);
         setWallets(wallets.data.cards);
         setWorkingCapital(workingCapital);
         setTransfers(transfers);

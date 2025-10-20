@@ -14,7 +14,6 @@ const colorMap = {
 };
 
 export default function Card({ bgColor = "black", data }: Props) {
-  console.log(data);
   return (
     <div
       className={`w-full min-h-[150px] flex items-center gap-4 p-4 rounded-2xl ${colorMap[bgColor]} shadow-lg `}
