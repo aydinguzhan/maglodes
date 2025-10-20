@@ -53,35 +53,21 @@ export type WalletCard = {
   color: string;
   isDefault: boolean;
 };
+export interface WalletData {
+  cards: WalletCard[];
+}
 
+export interface WalletResponse {
+  success: boolean;
+  message: string;
+  data: WalletData;
+}
 export type WorkingCapitalDataItem = {
   month: string;
   income: number;
   expense: number;
   net: number;
 };
-
-// export type WorkingCapitalSummary = {
-//   totalIncome: number;
-//   totalExpense: number;
-//   netBalance: number;
-//   totalIncomeFormat?: string;
-//   totalExpenseFormat?: string;
-//   netBalanceFormat?: string;
-// };
-
-// export type WorkingCapitalData = {
-//   period: string;
-//   currency: string;
-//   data: WorkingCapitalDataItem[];
-//   summary: WorkingCapitalSummary;
-// };
-
-// export type WorkingCapitalResponse = {
-//   success: boolean;
-//   message: string;
-//   data: WorkingCapitalData;
-// };
 
 export type ScheduledTransferItem = {
   id: string;

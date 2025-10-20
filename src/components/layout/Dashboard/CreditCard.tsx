@@ -17,7 +17,7 @@ export default function CreditCard({ bgColor, blur, cardInfo }: Props) {
           : `min-w-[354px] h-[210px]  bg-radial-[at_25%_35%] from-gray-500 shadow-2xl ${bgColor} to-75%`
       }  p-1 rounded-2xl font-normal `}
     >
-      <div className="flex items-center gap-4 p-5 ">
+      <div className="flex items-center gap-4 p-4 ">
         <span className="">
           <Text color="white" label={cardInfo?.bank} size="xl" />
         </span>
@@ -102,7 +102,7 @@ export default function CreditCard({ bgColor, blur, cardInfo }: Props) {
             </svg>
           </div>
         ) : (
-          <div className={blur ? "hidden" : " w-full  flex  justify-end"}>
+          <div className={blur ? "hidden" : " w-full  flex  justify-end p-1"}>
             <svg
               width="47"
               height="36"

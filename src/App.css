@@ -40,3 +40,59 @@
 .read-the-docs {
   color: #888;
 }
+
+.glow-border-card {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Dönen gradient border */
+.glow-border-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, #ff0080, #7928ca, #00cfff, #ff0080);
+  animation: rotate 4s linear infinite;
+  z-index: -1;
+}
+
+/* İç alan maskesi */
+.glow-border-card::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background: white; /* veya içerik arka planı */
+  border-radius: 14px;
+  z-index: 0;
+}
+
+.glow-border-card .content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  z-index: 1;
+}
+
+/* Animasyon */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -7,13 +7,8 @@ import Table from "../../components/layout/Table/Table";
 import Sidebar from "../../components/layout/Sidebar/Sidebar";
 import { useAuthStore } from "../../stores/useAuthStore";
 import DashboardService from "../../services/api/dashboard";
-import type {
-  ScheduledTransfersResponse,
-  WalletCard,
-  WorkingCapitalResponse,
-} from "../../utils/types";
+import type { ScheduledTransfersResponse, WalletCard } from "../../utils/types";
 import Loader from "../../components/global/Loader/Loader";
-import utils from "../../utils/utils";
 import { ToastContainer } from "react-toastify";
 
 const tableHeaders = ["NAME/BUSINESS", "TYPE", "AMOUNT", "DATE"];
@@ -46,8 +41,8 @@ export default function Dashboard({ onLogout }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useAuthStore();
   const dashboardService = new DashboardService(token ?? undefined);
-  const [wallets, setWallets] = useState<any>([]);
-  const [transfers, setTransfers] = useState<any>();
+  const [wallets, setWallets] = useState<WalletCard[]>([]);
+  const [transfers, setTransfers] = useState<ScheduledTransfersResponse>();
   const [workingCapital, setWorkingCapital] = useState<any>();
   const [scheduledList, setScheduledList] = useState<any>([]);
   const [recentTransactions, setRecentTransactions] = useState<any>([]);
@@ -58,15 +53,16 @@ export default function Dashboard({ onLogout }: Props) {
       try {
         setIsLoading(true);
         const [wallets, workingCapital, transfers, recentTransactions] =
-          await Promise.all([
+          (await Promise.all([
             dashboardService.getWallet(),
             dashboardService.getWorkingCapital(),
             dashboardService.getScheduledTransfers(),
             dashboardService.getRecentTransactions(),
-          ]);
-        setWallets(wallets.data.cards);
+          ])) as any;
+
+        setWallets(wallets.data.cards as WalletCard[]);
         setWorkingCapital(workingCapital);
-        setTransfers(transfers);
+        setTransfers(transfers as ScheduledTransfersResponse);
         setScheduledList(transfers.data.transfers);
         setRecentTransactions(recentTransactions.data.transactions);
       } catch (err) {
@@ -83,6 +79,7 @@ export default function Dashboard({ onLogout }: Props) {
     <>
       <ToastContainer />
       <Loader visible={isLoading} size="32" />
+
       <Sidebar onLogout={onLogout} />
       <div className="flex mx-15">
         <main className="flex-1 bg-white p-6 flex flex-col">
@@ -108,13 +105,13 @@ export default function Dashboard({ onLogout }: Props) {
               <div className="flex-1 bg-gray-50 rounded-2xl p-4 ">
                 <Chart data={workingCapital?.data?.data} />
               </div>
-              {/* <div className="mt-6">
+              <div className="mt-6">
                 <Table
                   tableHeader={tableHeaders}
-                  tableRow={recentTransactions.data.transactions}
+                  tableRow={recentTransactions}
                   title="Recent Transaction"
                 />
-              </div> */}
+              </div>
             </div>
             <div>
               <div className="h-100">

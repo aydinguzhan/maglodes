@@ -40,22 +40,33 @@ export default class DashboardService {
   async getWallet() {
     return await this.client.get("/financial/wallet");
   }
-
   async getRecentTransactions() {
-    const data = await this.client.get("/financial/transactions/recent");
-    const { transacitons } = data?.data;
-    // transacitons.forEach((transaction: any) => {
-    //   transaction.date = moment(transaction?.date).format("dd/mm/YYYY-HH:mm");
-    //   transaction.amountFormat = [
-    //     transaction?.amount,
-    //     transaction?.currency,
-    //   ].join("");
-    // });
-    return data;
+    const data: any = await this.client.get("/financial/transactions/recent");
+
+    const transactions = data?.data?.transactions ?? [];
+
+    const formattedTransactions = transactions.map((transaction: any) => ({
+      ...transaction,
+      date: moment(transaction?.date).format("DD/MM/YYYY - HH:mm"),
+      amountFormat: utils.moneyFormatter(
+        transaction?.amount,
+        transaction?.currency
+      ),
+    }));
+
+    return {
+      ...data,
+      data: {
+        ...data.data,
+        transactions: formattedTransactions,
+      },
+    };
   }
 
   async getScheduledTransfers() {
-    const res = await this.client.get("/financial/transfers/scheduled");
+    const res = (await this.client.get(
+      "/financial/transfers/scheduled"
+    )) as any;
     const { transfers } = res?.data;
     transfers.forEach((transfer: any) => {
       transfer.date = moment(transfer?.date).format("dd/mm/YYYY-HH:mm");
