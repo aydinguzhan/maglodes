@@ -27,7 +27,6 @@ type Props = {
 export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
   const formikRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const { setAuth } = useAuthStore();
 
   const login = async (payload: LoginPayload) => {
@@ -35,14 +34,15 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
     try {
       const res = (await authService.login(payload)) as LoginResponse;
       if (res.success && res.data) {
-        setAuth(res.data.accessToken, res.data.user);
-        utils.toastMessageSuccess(res);
+        utils.toastMessageSuccess(res.message);
 
-        navigate("/dashboard");
+        setTimeout(() => {
+          setIsLoading(false);
+          setAuth(res.data.accessToken, res.data.user);
+        }, 1000);
       }
     } catch (err: AxiosError) {
       utils.toastMessageError(err);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -54,11 +54,13 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
         payload
       )) as RegisterResponse;
       if (success) {
-        setIsSingUp(false);
+        utils.toastMessageSuccess(message);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
       }
     } catch (err: AxiosError) {
       utils.toastMessageError(err);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -130,6 +132,7 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
                       label="Full Name"
                       placeHolder="John Doe"
                       errorMessage={errors.fullName}
+                      disabled={isLoading}
                     />
                   )}
 
@@ -142,6 +145,7 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
                     label="Email"
                     placeHolder="user@example.com"
                     errorMessage={errors.email}
+                    disabled={isLoading}
                   />
 
                   <Input
@@ -153,6 +157,7 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
                     label="Password"
                     placeHolder="••••••••"
                     errorMessage={errors.password}
+                    disabled={isLoading}
                   />
 
                   {/* Giriş / Kayıt butonu */}
@@ -181,6 +186,7 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
                     onClick={() =>
                       utils.toastMessageSuccess("Google auth coming soon")
                     }
+                    disabled={isLoading}
                   />
 
                   <div className="text-center mt-4">

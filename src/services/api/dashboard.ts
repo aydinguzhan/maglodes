@@ -56,7 +56,6 @@ export default class DashboardService {
 
   async getScheduledTransfers() {
     const res = await this.client.get("/financial/transfers/scheduled");
-    console.log("res:", res);
     const { transfers } = res?.data;
     transfers.forEach((transfer: any) => {
       transfer.date = moment(transfer?.date).format("dd/mm/YYYY-HH:mm");

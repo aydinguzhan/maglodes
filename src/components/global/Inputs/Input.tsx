@@ -52,7 +52,9 @@ export default function Input({
         placeholder={placeHolder}
         className={`border-1 ${
           errorMessage ? "border-red-600" : "border-gray-200"
-        } rounded-lg p-2 focus:outline-amber-300`}
+        } rounded-lg p-2 focus:outline-amber-300 ${
+          disabled ? "bg-gray-100" : "bg-white"
+        }`}
         disabled={disabled}
       />
     </div>
