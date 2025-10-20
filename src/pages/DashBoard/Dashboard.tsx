@@ -37,23 +37,6 @@ const tableRow = [
     date: "14 Apr 2022",
   },
 ];
-const tableHeader1 = ["", ""];
-// const tableRow1 = [
-//   {
-//     id: "1",
-//     imgUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-//     name: "Iphone 13 Pro Max",
-//     amount: "$429",
-//     date: "14 Apr 2022",
-//   },
-//   {
-//     id: "2",
-//     imgUrl: "https://randomuser.me/api/portraits/women/44.jpg",
-//     name: "Iphone 12 Pro Max",
-//     amount: "$329",
-//     date: "14 Apr 2022",
-//   },
-// ];
 
 type Props = {
   onLogout: () => void;
@@ -103,9 +86,27 @@ export default function Dashboard({ onLogout }: Props) {
           <div className="flex flex-1 gap-6 mt-4 h-full">
             <div className="flex-2/3 flex flex-col gap-6 h-full">
               <div className="flex gap-4 ">
-                <Card bgColor="black" />
-                <Card bgColor="gray" />
-                <Card bgColor="gray" />
+                <Card
+                  bgColor="black"
+                  data={[
+                    workingCapitali?.data?.summary.netBalance,
+                    workingCapitali?.data?.currency,
+                  ].join(" ")}
+                />
+                <Card
+                  bgColor="gray"
+                  data={[
+                    workingCapitali?.data?.summary.totalExpense,
+                    workingCapitali?.data?.currency,
+                  ].join(" ")}
+                />
+                <Card
+                  bgColor="gray"
+                  data={[
+                    workingCapitali?.data?.summary.totalIncome,
+                    workingCapitali?.data?.currency,
+                  ].join(" ")}
+                />
               </div>
 
               <div className="flex-1 bg-gray-50 rounded-2xl p-4 ">
@@ -141,7 +142,7 @@ export default function Dashboard({ onLogout }: Props) {
               </div>
               <div>
                 <Table
-                  tableHeader={tableHeader1}
+                  tableHeader={["", ""]}
                   tableRow={(transfers?.data?.transfers || []).map((t) => ({
                     id: t.id ?? "",
                     image: (t as any).image ?? "",

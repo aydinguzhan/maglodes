@@ -21,12 +21,8 @@ export default function CreditCard({ bgColor, blur, cardInfo }: Props) {
         <span className="">
           <Text color="white" label={cardInfo?.bank} size="xl" />
         </span>
-        {/* <span className={`flex gap-3 ${blur ? "text-white" : "text-gray-400"}`}>
-          <span className="h-6 border-1 border-r-1"></span>
-          <span>Commercial Bank</span>
-        </span> */}
       </div>
-      <div className="flex items-center justify-between gap-4 px-4 mx-2 my-2 mb-3 ">
+      <div className="flex items-center justify-between gap-4 px-4 mx-2 ">
         <svg
           width="38"
           height="30"
@@ -83,14 +79,14 @@ export default function CreditCard({ bgColor, blur, cardInfo }: Props) {
           />
         </svg>
       </div>
-      <div className="flex flex-col  items-start gap-1 px-2 text-white font-semibold text-2xl">
-        <pre className={`${blur && "text-black "} ml-4`}>
+      <div className="flex flex-col  items-start gap-1 px-2 text-white font-semibold text-xl">
+        <div className={`${blur && "text-black "} ml-4`}>
           {cardInfo?.cardNumber}
-        </pre>
+        </div>
         {blur ? (
-          <div className="flex w-full justify-between items-center px-4 ">
-            <span className={`${blur && "text-gray-300 font-medium"}  text-lg`}>
-              {[cardInfo?.expiryMonth, cardInfo?.expiryYear].join("/")}
+          <div className="flex w-full justify-between items-center px-2 ">
+            <span className={`${blur && "text-gray-300 font-medium"}  text-sm`}>
+              {[cardInfo?.expiryMonth, cardInfo?.expiryYear].join(" / ")}
             </span>
             <svg
               width="32"

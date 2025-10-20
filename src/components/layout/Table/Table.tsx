@@ -4,7 +4,7 @@ import TableBody, { type ScheduledTransferRow } from "./Components/TableBody";
 type Props = {
   title: string;
   tableHeader: string[];
-  tableRow?: ScheduledTransferRow[]; // opsiyonel
+  tableRow?: ScheduledTransferRow[] | any;
   type?: "basic" | "moduler";
 };
 

@@ -4,6 +4,7 @@ import { Wallet } from "lucide-react";
 
 type Props = {
   bgColor?: "gray" | "black";
+  data: any;
 };
 
 const colorMap = {
@@ -11,7 +12,7 @@ const colorMap = {
   gray: "bg-gray-200 text-gray-900",
 };
 
-export default function Card({ bgColor = "black" }: Props) {
+export default function Card({ bgColor = "black", data }: Props) {
   return (
     <div
       className={`w-full min-h-[150px] flex items-center gap-4 p-4 rounded-2xl ${colorMap[bgColor]} shadow-lg `}
@@ -27,7 +28,7 @@ export default function Card({ bgColor = "black" }: Props) {
         <Text color="gray" label="Total Balance" size="sm" />
         <Text
           color={bgColor === "gray" ? "black" : "gray"}
-          label="$500"
+          label={data}
           size="xl"
         />
       </div>
