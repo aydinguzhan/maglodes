@@ -42,17 +42,26 @@ export default class DashboardService {
   }
 
   async getRecentTransactions() {
-    return await this.client.get("/financial/transactions/recent");
+    const data = await this.client.get("/financial/transactions/recent");
+    const { transacitons } = data?.data;
+    // transacitons.forEach((transaction: any) => {
+    //   transaction.date = moment(transaction?.date).format("dd/mm/YYYY-HH:mm");
+    //   transaction.amountFormat = [
+    //     transaction?.amount,
+    //     transaction?.currency,
+    //   ].join("");
+    // });
+    return data;
   }
 
   async getScheduledTransfers() {
-    const res = (await this.client.get(
-      "/financial/transfers/scheduled"
-    )) as ScheduledTransfersResponse;
-    res.data?.transfers.forEach(
-      (transfer: ScheduledTransferItem) =>
-        (transfer.date = moment(transfer?.date).format("DD/MM/YYYY-HH:mm:ss"))
-    );
+    const res = await this.client.get("/financial/transfers/scheduled");
+    console.log("res:", res);
+    const { transfers } = res?.data;
+    transfers.forEach((transfer: any) => {
+      transfer.date = moment(transfer?.date).format("dd/mm/YYYY-HH:mm");
+      transfer.amountFormat = [transfer?.amount, transfer?.currency].join("");
+    });
     return res;
   }
 }

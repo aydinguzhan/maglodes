@@ -48,21 +48,28 @@ export default function Dashboard({ onLogout }: Props) {
   const dashboardService = new DashboardService(token ?? undefined);
   const [wallets, setWallets] = useState<any>([]);
   const [transfers, setTransfers] = useState<any>();
-  const [workingCapitali, setWorkingCapital] = useState<any>();
+  const [workingCapital, setWorkingCapital] = useState<any>();
+  const [scheduledList, setScheduledList] = useState<any>([]);
+  const [recentTransactions, setRecentTransactions] = useState<any>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!token) return;
       try {
         setIsLoading(true);
-        const [wallets, workingCapital, transfers] = await Promise.all([
-          dashboardService.getWallet(),
-          dashboardService.getWorkingCapital(),
-          dashboardService.getScheduledTransfers(),
-        ]);
+        const [wallets, workingCapital, transfers, recentTransactions] =
+          await Promise.all([
+            dashboardService.getWallet(),
+            dashboardService.getWorkingCapital(),
+            dashboardService.getScheduledTransfers(),
+            dashboardService.getRecentTransactions(),
+          ]);
+        console.log("recent:", recentTransactions);
         setWallets(wallets.data.cards);
         setWorkingCapital(workingCapital);
         setTransfers(transfers);
+        setScheduledList(transfers.data.transfers);
+        setRecentTransactions(recentTransactions.data.transactions);
       } catch (err) {
         console.error(err);
       } finally {
@@ -87,28 +94,28 @@ export default function Dashboard({ onLogout }: Props) {
               <div className="flex gap-4 ">
                 <Card
                   bgColor="black"
-                  data={workingCapitali?.summary?.netFormat}
+                  data={workingCapital?.summary?.netFormat}
                 />
                 <Card
                   bgColor="gray"
-                  data={workingCapitali?.summary?.expenseFormat}
+                  data={workingCapital?.summary?.expenseFormat}
                 />
                 <Card
                   bgColor="gray"
-                  data={workingCapitali?.summary?.incomeFormat}
+                  data={workingCapital?.summary?.incomeFormat}
                 />
               </div>
 
               <div className="flex-1 bg-gray-50 rounded-2xl p-4 ">
-                <Chart data={workingCapitali?.data?.data} />
+                <Chart data={workingCapital?.data?.data} />
               </div>
-              <div className="mt-6">
+              {/* <div className="mt-6">
                 <Table
                   tableHeader={tableHeaders}
-                  tableRow={tableRow}
+                  tableRow={recentTransactions.data.transactions}
                   title="Recent Transaction"
                 />
-              </div>
+              </div> */}
             </div>
             <div>
               <div className="h-100">
@@ -133,18 +140,7 @@ export default function Dashboard({ onLogout }: Props) {
               <div>
                 <Table
                   tableHeader={["", ""]}
-                  tableRow={(transfers?.data?.transfers || []).map((t) => ({
-                    id: t.id ?? "",
-                    image: (t as any).image ?? "",
-                    name:
-                      (t as any).name ??
-                      (t as any).title ??
-                      "Scheduled Transfer",
-                    type: (t as any).type ?? "scheduled",
-                    business: (t as any).business,
-                    amount: (t as any).amount ?? "",
-                    date: (t as any).date ?? "",
-                  }))}
+                  tableRow={scheduledList}
                   title="Scheduled Transfers"
                   type="basic"
                 />

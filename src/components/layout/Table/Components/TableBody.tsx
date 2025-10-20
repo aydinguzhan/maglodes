@@ -13,7 +13,7 @@ export type ScheduledTransferRow = {
 
 type Props = {
   labels: string[];
-  tableRows?: ScheduledTransferRow[]; // opsiyonel ve default boş dizi
+  tableRows?: any[]; // opsiyonel ve default boş dizi
   title: string;
   type?: "basic" | "moduler";
 };
@@ -64,7 +64,7 @@ export default function TableBody({
               </td>
 
               {/* <td className="px-4 py-2">{row.type}</td> */}
-              <td className="px-4 py-2">{row.amount}</td>
+              <td className="px-4 py-2">{row?.amountFormat ?? row.amount}</td>
               <td className="px-4 py-2">
                 {type === "moduler" ? row.date : null}
               </td>

@@ -14,6 +14,7 @@ export default function Table({
   title,
   type,
 }: Props) {
+  console.log("Table Row:", tableRow);
   return (
     <TableBody
       labels={tableHeader}
