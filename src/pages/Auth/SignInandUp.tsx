@@ -115,7 +115,6 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
                   />
                 </div>
 
-                {/* Form alanları */}
                 <div className="w-3/4 flex flex-col gap-4">
                   {isSingUp && (
                     <Input
@@ -155,7 +154,6 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
                     disabled={isLoading}
                   />
 
-                  {/* Giriş / Kayıt butonu */}
                   <Button
                     bgColor="lime"
                     label={
@@ -165,7 +163,6 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
                     disabled={isLoading}
                   />
 
-                  {/* Google Button (dummy) */}
                   <Button
                     bgColor="white"
                     label={
