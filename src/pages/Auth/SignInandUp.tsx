@@ -3,7 +3,6 @@ import Input from "../../components/global/Inputs/Input";
 import Button from "../../components/global/Buttons/Button";
 import Text from "../../components/global/Text/Text";
 import authService from "../../services/api/auth";
-import { useNavigate } from "react-router-dom";
 import type {
   LoginPayload,
   LoginResponse,
@@ -13,11 +12,9 @@ import type {
 import { ToastContainer } from "react-toastify";
 import { Formik, Form } from "formik";
 import { loginAndRegisterSchema } from "../validationSchema/loginandRegister";
-import Loader from "../../components/global/Loader/Loader";
 import { useAuthStore } from "../../stores/useAuthStore";
 import utils from "../../utils/utils";
 import Spinner from "../../components/global/Loader/Spinner";
-import { AxiosError } from "axios";
 
 type Props = {
   isSingUp: boolean;

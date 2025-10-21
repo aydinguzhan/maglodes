@@ -1,4 +1,3 @@
-import React from "react";
 import TableBody, { type ScheduledTransferRow } from "./Components/TableBody";
 
 type Props = {

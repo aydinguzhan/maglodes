@@ -1,8 +1,6 @@
-import React, { useState } from "react";
 import Text from "../../global/Text/Text";
 import { Search, Bell, ChevronDown } from "lucide-react";
 import { useAuthStore } from "../../../stores/useAuthStore";
-import { useTranslation } from "react-i18next";
 import utils from "../../../utils/utils";
 
 type Props = {
@@ -13,7 +11,6 @@ type Props = {
 
 export default function TopBar({ pageName, selectLang, setSelectLang }: Props) {
   const { user } = useAuthStore();
-  const { i18n } = useTranslation();
   return (
     <div className="w-full flex justify-between   border-b-1 border-gray-50  h-10">
       <Text color="black" label={pageName} size="xl" />

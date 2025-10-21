@@ -1,4 +1,3 @@
-import React from "react";
 import Text from "../../global/Text/Text";
 import { Wallet } from "lucide-react";
 
