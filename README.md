@@ -30,4 +30,4 @@ Github:
 https://github.com/aydinguzhan?tab=repositories
 
 netlify:
-https://maglodes.netlify.app/dashboard
+https://maglodes.netlify.app
