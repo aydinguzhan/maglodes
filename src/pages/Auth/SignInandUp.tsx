@@ -85,12 +85,10 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
         {({ values, setFieldValue, errors }) => (
           <Form>
             <div className="flex h-screen">
-              {/* Sol kısım */}
-              <div className="w-full sm:w-1/2 flex flex-col items-start justify-center p-4 bg-white">
-                {/* Logo */}
-                <div className="mb-6">
+              <div className="w-full sm:w-1/2 flex flex-col items-center justify-around p-4 bg-white">
+                <div className="mb-6  w-full flex ">
                   <img
-                    className="w-30 h-8"
+                    className="w-30 h-8 ml-4"
                     style={{
                       borderWidth: 0,
                       backgroundImage: "url('/Logo.png')",
@@ -100,7 +98,7 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
                   />
                 </div>
 
-                <div className="w-3/4 flex flex-col mb-8 gap-4">
+                <div className="w-3/4 flex flex-col mb-1 gap-4">
                   <Text
                     color="black"
                     label={isSingUp ? "Create new account" : "Sign In"}
