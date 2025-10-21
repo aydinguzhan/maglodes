@@ -41,7 +41,7 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
           setAuth(res.data.accessToken, res.data.user);
         }, 1000);
       }
-    } catch (err: AxiosError) {
+    } catch (err: any) {
       utils.toastMessageError(err);
       setIsLoading(false);
     }
@@ -59,7 +59,7 @@ export default function SignInandUp({ isSingUp, setIsSingUp }: Props) {
           setIsLoading(false);
         }, 1000);
       }
-    } catch (err: AxiosError) {
+    } catch (err: any) {
       utils.toastMessageError(err);
       setIsLoading(false);
     }

@@ -1,6 +1,5 @@
 import type { AxiosError } from "axios";
-import { toast } from "react-toastify";
-import type { LoginResponse } from "./types";
+import { toast, type ToastOptions } from "react-toastify";
 import i18n from "../i18n";
 
 class Utils {
@@ -31,7 +30,7 @@ class Utils {
     const message = data?.message ?? err.message ?? err.message;
     toast.error(message, baseOptions);
   }
-  toastMessageSuccess<T>(res: T): void {
+  toastMessageSuccess(res: any): void {
     const baseOptions: ToastOptions = {
       position: "top-right",
       autoClose: 3000,

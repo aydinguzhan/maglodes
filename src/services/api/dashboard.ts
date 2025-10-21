@@ -1,7 +1,3 @@
-import type {
-  ScheduledTransferItem,
-  ScheduledTransfersResponse,
-} from "../../utils/types";
 import utils from "../../utils/utils";
 import Client from "./client";
 import moment from "moment";
