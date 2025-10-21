@@ -3,6 +3,8 @@
 React + TypeScript + Vite altyapısıyla geliştirilmiş, modern ve ölçeklenebilir bir dashboard uygulaması.  
 Proje; kullanıcı arayüzü, çoklu dil desteği, API yönetimi ve bildirim sistemi içeren bir tam-stack frontend yapısı sunar.
 
+# Ek Özellikler 
+Dil desteği olarak i18 , typescript 
 ---
 
 ## 🚀 Kurulum
