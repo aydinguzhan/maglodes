@@ -1,12 +1,12 @@
 import React from "react";
 
 type Props = {
-  size?: string; // Tailwind width için örn: "20", "32", ...
-  visible: boolean; // loader'ı göstermek için
+  size?: string;
+  visible: boolean;
 };
 
 export default function Loader({ size = "20", visible }: Props) {
-  if (!visible) return null; // görünür değilse render etme
+  if (!visible) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-black/30">

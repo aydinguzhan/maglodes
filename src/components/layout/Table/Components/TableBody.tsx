@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TableHeader from "./TableHeader";
+import { useTranslation } from "react-i18next";
 
 export type ScheduledTransferRow = {
   id: string;
@@ -25,6 +26,7 @@ export default function TableBody({
   title,
   type = "moduler",
 }: Props) {
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
 
@@ -88,7 +90,7 @@ export default function TableBody({
           disabled={currentPage === 1}
           className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
         >
-          Prev
+          {t("LABEL_PREV")}
         </button>
 
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
@@ -112,7 +114,7 @@ export default function TableBody({
           disabled={currentPage === totalPages}
           className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
         >
-          Next
+          {t("LABEL_NEXT")}
         </button>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import type { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import type { LoginResponse } from "./types";
+import i18n from "../i18n";
 
 class Utils {
   setToken = (token: string) => {
@@ -62,6 +63,10 @@ class Utils {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(amount);
+  }
+  changeLan(lng: string, callBack?: Function) {
+    i18n.changeLanguage(lng);
+    callBack && callBack(lng);
   }
 }
 

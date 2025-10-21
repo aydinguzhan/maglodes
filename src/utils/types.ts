@@ -73,7 +73,7 @@ export type ScheduledTransferItem = {
   id: string;
   name: string;
   image: string;
-  date: string; // ISO tarih string
+  date: string;
   amount: number;
   currency: string;
   status: string;

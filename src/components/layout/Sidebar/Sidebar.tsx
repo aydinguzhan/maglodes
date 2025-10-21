@@ -10,31 +10,32 @@ import {
   LogOut,
   MessageCircleQuestion,
 } from "lucide-react";
-import utils from "../../../utils/utils";
 import { useAuthStore } from "../../../stores/useAuthStore";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   onLogout: () => void;
 };
-export default function Sidebar({ onLogout }: Props) {
+export default function Sidebar({}: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const { logout } = useAuthStore();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const menuItems = [
     {
       icon: <Home className="w-5 h-5 text-gray-700" />,
-      label: "Dashboard",
+      label: t("LABEL_DASHBOARD"),
       _onClick: () => {},
     },
     {
       icon: <Settings className="w-5 h-5 text-gray-700" />,
-      label: "Ayarlar",
+      label: t("LABEL_SETTINGS"),
       _onClick: () => {},
     },
     {
       icon: <User className="w-5 h-5 text-gray-700" />,
-      label: "Profil",
+      label: t("LABEL_PROFIL"),
       _onClick: () => {},
     },
   ];
@@ -42,7 +43,7 @@ export default function Sidebar({ onLogout }: Props) {
   const authItems = [
     {
       icon: <LogOut className="w-5 h-5 text-gray-700" />,
-      label: "Logout",
+      label: t("LABEL_LOGOUT"),
       _onClick: () => {
         logout();
         navigate("/auth");
@@ -50,7 +51,7 @@ export default function Sidebar({ onLogout }: Props) {
     },
     {
       icon: <MessageCircleQuestion className="w-5 h-5 text-gray-700" />,
-      label: "Help",
+      label: t("LABEL_HELP"),
       _onClick: () => {},
     },
   ];
@@ -61,7 +62,6 @@ export default function Sidebar({ onLogout }: Props) {
         isOpen ? "w-64" : "w-16"
       }`}
     >
-      {/* Toggle button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-8 h-8 mb-4 mx-auto flex justify-center items-center rounded hover:bg-gray-200 transition-colors"
@@ -69,7 +69,6 @@ export default function Sidebar({ onLogout }: Props) {
         {isOpen ? <X /> : <Menu />}
       </button>
 
-      {/* Menü öğeleri */}
       <div className="flex-1 flex flex-col justify-between overflow-y-auto">
         <nav className="flex flex-col gap-3">
           {menuItems.map((item) => (

@@ -1,0 +1,19 @@
+{
+  "LABEL_PREV": "Prev",
+  "LABEL_NEXT": "Next",
+  "LABEL_DASHBOARD": "Dashboard",
+  "LABEL_SETTINGS": "Settings",
+  "LABEL_PROFIL": "Profil",
+  "LABEL_LOGOUT": "Log Out",
+  "LABEL_HELP": "Help",
+  "LABEL_VIEW_ALL": "View All",
+  "LABEL_SCHEDULED_TRANFER": "Scheduled Transfers",
+  "LABEL_TOTAL_BALANCE": "Total Balance",
+  "LABEL_TOTAL_EXPENSE": "Total Expense",
+  "LABEL_TOTAL_INCOME": "Total Income",
+  "LABEL_NAME_BUSSINESS": "Name/Business",
+  "LABEL_TYPE": "Type",
+  "LABEL_AMOUNT": "Amount",
+  "LABEL_DATE": "Date",
+  "LABEL_RECENT_TRANSACTIONS": "Recent Transactions"
+}

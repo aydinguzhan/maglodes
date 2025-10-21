@@ -7,45 +7,32 @@ import Table from "../../components/layout/Table/Table";
 import Sidebar from "../../components/layout/Sidebar/Sidebar";
 import { useAuthStore } from "../../stores/useAuthStore";
 import DashboardService from "../../services/api/dashboard";
-import type { ScheduledTransfersResponse, WalletCard } from "../../utils/types";
+import type { WalletCard } from "../../utils/types";
 import Loader from "../../components/global/Loader/Loader";
 import { ToastContainer } from "react-toastify";
-
-const tableHeaders = ["NAME/BUSINESS", "TYPE", "AMOUNT", "DATE"];
-const tableRow = [
-  {
-    id: "1",
-    imgUrl: "https://randomuser.me/api/portraits/men/32.jpg",
-    name: "Iphone 13 Pro Max",
-    business: "Apple",
-    type: "mobile",
-    amount: "$429",
-    date: "14 Apr 2022",
-  },
-  {
-    id: "2",
-    imgUrl: "https://randomuser.me/api/portraits/women/44.jpg",
-    name: "Iphone 12 Pro Max",
-    business: "Apple",
-    type: "mobile",
-    amount: "$329",
-    date: "14 Apr 2022",
-  },
-];
+import { useTranslation } from "react-i18next";
+import utils from "../../utils/utils";
 
 type Props = {
   onLogout: () => void;
 };
 
 export default function Dashboard({ onLogout }: Props) {
+  const { t } = useTranslation();
+  const [selectLang, setSelectLang] = useState("en");
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useAuthStore();
   const dashboardService = new DashboardService(token ?? undefined);
   const [wallets, setWallets] = useState<WalletCard[]>([]);
-  const [transfers, setTransfers] = useState<ScheduledTransfersResponse>();
   const [workingCapital, setWorkingCapital] = useState<any>();
   const [scheduledList, setScheduledList] = useState<any>([]);
   const [recentTransactions, setRecentTransactions] = useState<any>([]);
+  const tableHeaders = [
+    t("LABEL_NAME_BUSSINESS"),
+    t("LABEL_TYPE"),
+    t("LABEL_AMOUNT"),
+    t("LABEL_DATE"),
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +49,6 @@ export default function Dashboard({ onLogout }: Props) {
 
         setWallets(wallets.data.cards as WalletCard[]);
         setWorkingCapital(workingCapital);
-        setTransfers(transfers as ScheduledTransfersResponse);
         setScheduledList(transfers.data.transfers);
         setRecentTransactions(recentTransactions.data.transactions);
       } catch (err) {
@@ -74,6 +60,9 @@ export default function Dashboard({ onLogout }: Props) {
 
     fetchData();
   }, [token]);
+  useEffect(() => {
+    utils.changeLan("en");
+  }, []);
 
   return (
     <>
@@ -83,20 +72,27 @@ export default function Dashboard({ onLogout }: Props) {
       <Sidebar onLogout={onLogout} />
       <div className="flex mx-15">
         <main className="flex-1 bg-white p-6 flex flex-col">
-          <TopBar pageName="Dashboard" />
+          <TopBar
+            pageName="Dashboard"
+            selectLang={selectLang}
+            setSelectLang={setSelectLang}
+          />
 
           <div className="flex flex-1 gap-6 mt-4 h-full">
             <div className="flex-2/3 flex flex-col gap-6 h-full">
               <div className="flex gap-4 ">
                 <Card
+                  label={t("LABEL_TOTAL_BALANCE")}
                   bgColor="black"
                   data={workingCapital?.summary?.netFormat}
                 />
                 <Card
+                  label={t("LABEL_TOTAL_EXPENSE")}
                   bgColor="gray"
                   data={workingCapital?.summary?.expenseFormat}
                 />
                 <Card
+                  label={t("LABEL_TOTAL_INCOME")}
                   bgColor="gray"
                   data={workingCapital?.summary?.incomeFormat}
                 />
@@ -109,7 +105,7 @@ export default function Dashboard({ onLogout }: Props) {
                 <Table
                   tableHeader={tableHeaders}
                   tableRow={recentTransactions}
-                  title="Recent Transaction"
+                  title={t("LABEL_RECENT_TRANSACTIONS")}
                 />
               </div>
             </div>
@@ -137,7 +133,7 @@ export default function Dashboard({ onLogout }: Props) {
                 <Table
                   tableHeader={["", ""]}
                   tableRow={scheduledList}
-                  title="Scheduled Transfers"
+                  title={t("LABEL_SCHEDULED_TRANFER")}
                   type="basic"
                 />
               </div>

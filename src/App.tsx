@@ -3,12 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import SignInAndUp from "./pages/Auth/SignInandUp";
 import Dashboard from "./pages/DashBoard/Dashboard";
 import { useAuthStore } from "./stores/useAuthStore";
-import { ToastContainer } from "react-toastify";
 
 export default function App() {
   const { token, logout } = useAuthStore();
   const [isSignUp, setIsSignUp] = useState(false);
-
   const isAuthenticated = Boolean(token);
 
   return (

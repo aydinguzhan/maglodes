@@ -1,0 +1,19 @@
+{
+  "LABEL_PREV": "Geri",
+  "LABEL_NEXT": "İleri",
+  "LABEL_DASHBOARD": "Dashboard",
+  "LABEL_SETTINGS": "Ayarlar",
+  "LABEL_PROFIL": "Profil",
+  "LABEL_LOGOUT": "Çıkış",
+  "LABEL_HELP": "Yardım",
+  "LABEL_VIEW_ALL": "Görüntüle",
+  "LABEL_SCHEDULED_TRANFER": "Planlanmış Transfer",
+  "LABEL_TOTAL_BALANCE": "Toplam Bakiye",
+  "LABEL_TOTAL_EXPENSE": "Toplam Gider",
+  "LABEL_TOTAL_INCOME": "Toplam Gelir",
+  "LABEL_NAME_BUSSINESS": "İsim/İşletme",
+  "LABEL_TYPE": "Tip",
+  "LABEL_AMOUNT": "Miktar",
+  "LABEL_DATE": "Tarih",
+  "LABEL_RECENT_TRANSACTIONS": "Son İşlemler"
+}
